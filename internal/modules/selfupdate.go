@@ -15,20 +15,33 @@ import (
 	"time"
 )
 
-const (
-	githubRepo = "gnacho/netgrip"
-	tmpPath    = "/tmp/netgrip.update"
-)
+const tmpPath = "/tmp/netgrip.update"
+
+// githubRepo is injected by the release build so binaries built in a fork
+// continue to discover updates from that fork's releases.
+var githubRepo = "gnacho/netgrip"
 
 // binaryAssetName is the release asset for this build's architecture, so an
 // unsupported arch (e.g. mipsel before #236) never matches an existing asset
 // and the update is not offered/applied with a wrong-architecture binary (#237).
-// The single 32-bit arm build is published as armv7 (GOARM=7, ipq40xx, #325).
-func binaryAssetName() string {
+// releaseArch is injected by deploy/build-binaries.sh because runtime.GOARCH
+// reports "arm" for the distinct armv5, armv6 and armv7 release binaries.
+// It stays empty in local builds and tests, which use the runtime fallback.
+var releaseArch string
+
+func defaultReleaseArch() string {
 	if runtime.GOARCH == "arm" {
-		return "netgrip-linux-armv7"
+		return "armv7"
 	}
-	return "netgrip-linux-" + runtime.GOARCH
+	return runtime.GOARCH
+}
+
+func binaryAssetName() string {
+	arch := releaseArch
+	if arch == "" {
+		arch = defaultReleaseArch()
+	}
+	return "netgrip-linux-" + arch
 }
 
 // Overridable in tests.
