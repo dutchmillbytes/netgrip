@@ -81,7 +81,7 @@ An opt-in "Advanced" section in the nav, gated by `netgrip.main.advanced=1`, tha
 
 | Phase | Title | Contribution | Why Separate | Detail | Status |
 |-------|-------|--------------|--------------|--------|--------|
-| 1 | Advanced mode + section framework | The gate, the nav section, the moved cards: everything else builds on this | Consumable boundary: a complete, testable UI/backend gate deliverable before adding new hardware-facing features | [Phase](phases/phase-1.md) | pending |
+| 1 | Advanced mode + section framework | The gate, the nav section, the moved cards: everything else builds on this | Consumable boundary: a complete, testable UI/backend gate deliverable before adding new hardware-facing features | [Phase](phases/phase-1.md) | completed |
 | 2 | SNMP configuration (snmpd) | A self-contained card with its own package lifecycle, independent of switch hardware | Different domain (package + UCI mapping) and different test surface; can ship after phase 1 alone | [Phase](phases/phase-2.md) | pending |
 | 3 | Advanced switch features (mirroring, rate limit) | Hardware-dependent DSA features that need the dedicated switch to even develop against | Blocked on physical test hardware; the riskiest changes (network-facing), so last | [Phase](phases/phase-3.md) | pending |
 
@@ -97,3 +97,7 @@ An opt-in "Advanced" section in the nav, gated by `netgrip.main.advanced=1`, tha
 ### 2026-10-06
 
 - Plan created. Decisions confirmed with the maintainer: UCI flag + Settings toggle, grouping existing features, snmpd (no mini), DSA target, UniFi-style cards, 3 phases.
+
+### 2026-10-06 (2)
+
+- Phase 1 merged via PR #450 (squash `263f0e2`), closes #441. Delivered as a nav group with two pages (Networks, Switch).
